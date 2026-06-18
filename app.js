@@ -1,21 +1,33 @@
-let cancelId;
-let startTime;
-let savedTime = 0;
-const countdown = 5 * 1000;
-
 const timerMilliseconds = document.querySelector('.timer__milliseconds');
 const timerSeconds = document.querySelector('.timer__seconds');
 const timerMinutes = document.querySelector('.timer__minutes');
 
+const startButton = document.querySelector('.stopwatch__start');
+const stopButton = document.querySelector('.stopwatch__stop');
+const resetButton = document.querySelector('.stopwatch__reset');
+
+let cancelId;
+let startTime;
+let savedTime = 0;
+const countdown = 25 * 60 * 1000;
+
+
 function startTimer() {
+    startButton.disabled = true;        // Disable the start button to prevent multiple clicks
+    stopButton.disabled = false;        // Enable the stop button to allow stopping the timer
+    resetButton.disabled = false;       // Enable the reset button to allow resetting the timer
+
     startTime = Date.now();
     cancelId =requestAnimationFrame(updateTimer);
 }
 
 function stopTimer() {
+    startButton.disabled = false;
+    stopButton.disabled = true;
+    resetButton.disabled = false;
+
     cancelAnimationFrame(cancelId);
     savedTime += Date.now() - startTime;
-    console.log(savedTime);
 }
 
 function resetTimer() {
