@@ -27,7 +27,7 @@
 //     resetButton.disabled = false;
 
 //     cancelAnimationFrame(cancelId);
-//     savedTime += Date.now() - startTime;
+//     savedTime += Date.now() - startTime;     // savedTime = Date.now() - startTime + savedTime;
 // }
 
 // function resetTimer() {
@@ -83,6 +83,7 @@ const timerMinutes = document.querySelector('.timer__minutes')
 
 let cancelId;
 let startTime;
+let savedTime = 0;
 let countdown = 25 * 60 * 1000;
 
 function startTimer() {
@@ -92,6 +93,7 @@ function startTimer() {
 
 function stopTimer() {
     cancelAnimationFrame(cancelId);
+    savedTime = Date.now() - startTime + savedTime;
 }
 
 function resetTimer() {
@@ -99,7 +101,7 @@ function resetTimer() {
 }
 
 function updateTimer() {
-    let millisElapsed = Date.now() - startTime;
+    let millisElapsed = Date.now() - startTime + savedTime;
 
     let millisLeft = countdown - millisElapsed;
     let secondsLeft = millisLeft / 1000;
