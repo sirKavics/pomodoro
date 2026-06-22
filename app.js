@@ -97,7 +97,12 @@ function stopTimer() {
 }
 
 function resetTimer() {
+    startTime = Date.now();
+    savedTime = 0;
 
+    timerMilliseconds.innerHTML = "000"
+    timerSeconds.innerHTML = "00"
+    timerMinutes.innerHTML = "25"
 }
 
 function updateTimer() {
