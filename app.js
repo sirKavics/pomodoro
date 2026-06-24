@@ -77,9 +77,13 @@
 
 // PRACTICE RUN
 
-const timerMilliseconds = document.querySelector('.timer__milliseconds')
-const timerSeconds = document.querySelector('.timer__seconds')
-const timerMinutes = document.querySelector('.timer__minutes')
+const timerMilliseconds = document.querySelector('.timer__milliseconds');
+const timerSeconds = document.querySelector('.timer__seconds');
+const timerMinutes = document.querySelector('.timer__minutes');
+
+const startButton = document.querySelector('.stopwatch__start');
+const stopButton = document.querySelector('.stopwatch__stop');
+const resetButton = document.querySelector('.stopwatch__reset');
 
 let cancelId;
 let startTime;
@@ -87,16 +91,26 @@ let savedTime = 0;
 let countdown = 25 * 60 * 1000;
 
 function startTimer() {
+    startButton.disabled = true
+    stopButton.disabled = false;
+    resetButton.disabled = false;
+
     startTime = Date.now();
     cancelId = requestAnimationFrame(updateTimer);
 }
 
 function stopTimer() {
+    startButton.disabled = false;
+    stopButton.disabled = true;
+    resetButton.disabled = false;
+
     cancelAnimationFrame(cancelId);
     savedTime = Date.now() - startTime + savedTime;
 }
 
 function resetTimer() {
+    resetButton.disabled = true;
+
     startTime = Date.now();
     savedTime = 0;
 
@@ -115,6 +129,16 @@ function updateTimer() {
     let millisFormat = millisLeft % 1000;
     let secondsFormat = Math.floor(secondsLeft) % 60;
     let minutesFormat = Math.floor(minutesLeft);
+
+    if (millisFormat.toString().length < 3) {
+        millisFormat = millisFormat.toString().padStart(3, "0")
+    }
+    if (secondsFormat.toString().length < 2) {
+        secondsFormat = secondsFormat.toString().padStart(2, "0")
+    }
+    if (minutesFormat.toString().length < 2) {
+        minutesFormat = minutesFormat.toString().padStart(2, "0")
+    }
 
     timerMilliseconds.innerHTML = millisFormat;
     timerSeconds.innerHTML = secondsFormat;
