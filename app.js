@@ -88,7 +88,7 @@ const resetButton = document.querySelector('.stopwatch__reset');
 let cancelId;
 let startTime;
 let savedTime = 0;
-let countdown = 25 * 60 * 1000;
+let countdown = 1000;
 
 function startTimer() {
     startButton.disabled = true
@@ -122,7 +122,13 @@ function resetTimer() {
 function updateTimer() {
     let millisElapsed = Date.now() - startTime + savedTime;
 
+    
     let millisLeft = countdown - millisElapsed;
+    if (millisLeft < 0) {
+        millisLeft = 0;
+        cancelAnimationFrame(cancelId);
+        cancelId = null;
+    }
     let secondsLeft = millisLeft / 1000;
     let minutesLeft = secondsLeft / 60;
 
@@ -144,5 +150,7 @@ function updateTimer() {
     timerSeconds.innerHTML = secondsFormat;
     timerMinutes.innerHTML = minutesFormat;
 
-    cancelId =requestAnimationFrame(updateTimer);
+    if (cancelId) {
+        cancelId = requestAnimationFrame(updateTimer);
+    }
 }
